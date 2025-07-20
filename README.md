@@ -1,96 +1,115 @@
-🚀 Microservices-Based Application with Kafka Integration
-A scalable, event-driven microservices architecture built using modern Java technologies. This project demonstrates enterprise-grade patterns like asynchronous communication via Apache Kafka, service decoupling, and persistence using JPA with MySQL. The system is designed to evolve with more features and services in a modular, maintainable way.
+# 🚀 Microservices-Based Application with Kafka Integration
 
-🧰 Tech Stack
-Layer	Technologies Used
-Backend	Java 17, Spring Boot 3, Spring Web, Spring JPA, Spring Validation
-Database	MySQL (Relational DB), Hibernate (JPA implementation)
-Messaging	Apache Kafka, Spring for Apache Kafka
-Build & Config	Maven, Spring Profiles, application.yml
-Dev Tools	Lombok, DevTools, Postman (API testing), Kafka CLI tools
-Security	To be integrated: Spring Security, JWT
-UI (Planned)	To be integrated: React, Chakra UI, Axios
-Cloud & Infra	To be integrated: Docker, AWS (S3 / EC2), CI/CD with GitHub Actions
+A **scalable, event-driven microservices architecture** built using modern Java technologies. This application demonstrates enterprise-grade patterns like asynchronous communication via **Apache Kafka**, service decoupling, persistence using **Spring Data JPA**, and relational storage in **MySQL**.
 
-🧱 Architecture
-Microservices Pattern: Each service is independently deployable and communicates via Kafka topics.
+> 🧠 Built to showcase hands-on expertise in Java Full Stack development.
 
-Apache Kafka: Used for asynchronous communication between services (producer-consumer model).
+---
 
-Spring Boot: Rapid backend development with auto-configuration and production-ready defaults.
+## 🧰 Tech Stack
 
-JPA & MySQL: ORM-based data layer for relational data storage.
+| 🧩 Layer        | ⚙️ Technologies Used                                                                 |
+|----------------|----------------------------------------------------------------------------------------|
+| **Backend**     | Java 17 · Spring Boot 3 · Spring Web · Spring Validation · Spring JPA (Hibernate)     |
+| **Database**    | MySQL · JPA/Hibernate                                                                 |
+| **Messaging**   | Apache Kafka · Spring for Apache Kafka                                                |
+| **Build Tool**  | Maven                                                                                 |
+| **Dev Tools**   | Lombok · Spring DevTools · Postman · Kafka CLI                                        |
+| **Security**    | 🔒 _Planned:_ Spring Security · JWT                                                    |
+| **UI (Planned)**| 💻 React.js · Chakra UI · Axios                                                        |
+| **Cloud & Infra**| ☁️ _Planned:_ Docker · AWS (EC2, S3) · GitHub Actions CI/CD                          |
 
-DTOs & Event Classes: Clean separation of internal entities vs. event payloads.
+---
 
-Future Integrations:
+## 🧱 Architecture Highlights
 
-Dockerized services
+- 🧬 **Microservices Pattern** — Modular, loosely coupled services for scalability.
+- 📩 **Apache Kafka** — Asynchronous communication via producer-consumer architecture.
+- 🔧 **Spring Boot** — Auto-configured, production-ready Java microservices.
+- 💾 **Spring Data JPA + MySQL** — Clean ORM-based persistence layer.
+- 📦 **DTO + Events** — Clean separation between domain models and transport objects.
+- 🔮 **Future Enhancements**:
+  - 🐳 Docker-based deployments
+  - 🔍 Service discovery with **Eureka**
+  - 🌐 API Gateway via **Spring Cloud Gateway**
+  - 🛡️ Circuit breaker with **Resilience4j**
+  - 📊 Monitoring with **Prometheus + Grafana**
 
-Service discovery (e.g. Eureka)
+---
 
-API Gateway (e.g. Spring Cloud Gateway)
+## 📦 Current Modules
 
-Circuit breaker pattern (e.g. Resilience4j)
+| 🧩 Service Name     | 📄 Description                                                                 |
+|---------------------|--------------------------------------------------------------------------------|
+| `quiz-service`       | Handles quiz data, sends question requests to Kafka with correlation ID        |
+| `question-service`   | Listens to Kafka, fetches questions, and publishes results back via Kafka      |
 
-Monitoring with Prometheus + Grafana
+---
 
-📦 Current Modules
-quiz-service
-Handles quiz-related operations. Sends Kafka requests to retrieve associated questions.
+## 📨 Kafka Topics
 
-question-service
-Consumes messages from quiz-service, processes them, and responds on a Kafka topic with data.
+| 🧵 Topic Name              | 🔍 Purpose                                            |
+|----------------------------|------------------------------------------------------|
+| `question-request-topic`   | 🔄 Requests for questions based on `quizId`          |
+| `question-response-topic`  | 📤 Responds with a list of matching `Question` DTOs  |
 
-📨 Kafka Topics
-Topic Name	Purpose
-question-request-topic	Requests for fetching questions by quiz ID
-question-response-topic	Response payload containing questions
+---
 
-✅ Features Implemented
- Kafka producer and consumer configuration using ConcurrentKafkaListenerContainerFactory
+## ✅ Features Implemented
 
- JSON serialization with JsonSerializer / JsonDeserializer
+- ✅ Kafka Producer/Consumer using `ConcurrentKafkaListenerContainerFactory`
+- ✅ JSON serialization via `JsonSerializer` & `JsonDeserializer`
+- ✅ CompletableFuture-based request-response with timeout fallback
+- ✅ Cleanly structured DTO/event layer for Kafka transport
+- ✅ Modular Maven-based structure with isolated services
 
- CompletableFuture-based request/response handling for async Kafka workflows
+---
 
- Clean error handling and timeouts
+## 🧠 Learning Objectives
 
- Decoupled services using DTOs and events
+This repository demonstrates:
 
-🧠 Learning Objectives
-This project showcases:
+- 💡 Deep knowledge of **Spring Boot** and Java microservices
+- ⚙️ Use of **Kafka** for asynchronous, decoupled service interaction
+- 🔄 Designing non-blocking APIs with **CompletableFuture**
+- 🏗️ Layered architecture (Controller → Service → Repository)
+- 🧪 Use of DTO/Event pattern to reduce entity leaks
+- 📁 Modular Maven setup for large-scale project architecture
 
-Deep understanding of Java + Spring Boot ecosystem
+---
 
-Implementing asynchronous communication via Kafka
+## 🛠️ To-Do / Upcoming Features
 
-Building scalable microservices with clean separation
+- [ ] 🔐 Implement `user-service` with authentication (JWT + Spring Security)
+- [ ] 🌐 Add API Gateway using Spring Cloud Gateway
+- [ ] 🐳 Dockerize all services for containerized deployment
+- [ ] 📁 MongoDB integration for unstructured logs
+- [ ] 🚨 Global exception handling with `@ControllerAdvice`
+- [ ] 💻 UI Frontend with **React + Chakra UI**
+- [ ] 🧪 Add unit and integration tests using **JUnit + TestContainers**
+- [ ] ☁️ Deploy to **AWS** using GitHub Actions
 
-Using CompletableFutures for non-blocking responses
+---
 
-Using real-world production practices (DTO, Layered Architecture, Maven module structure)
+## 📸 Screenshots / Demo
 
-🛠️ To-Do / Upcoming Work
- Add user-service and implement authentication (JWT)
+> Coming Soon!
 
- API Gateway + Load Balancer
+---
 
- Dockerize all services
+## 🤝 Contributing
 
- Integrate MongoDB for unstructured logging
+Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change.
 
- Add global exception handling using @ControllerAdvice
+---
 
- UI frontend in React + Chakra UI
+## 📄 License
 
- Unit and Integration testing using JUnit + TestContainers
+This project is licensed under the **MIT License**.
 
- Deployment on AWS
+---
 
-📷 Screenshots / Demo (Coming Soon)
-🤝 Contributing
-Pull requests are welcome! For major changes, please open an issue first.
+### 📌 _Perfect for demonstrating enterprise-grade backend and messaging capabilities in interviews and production environments._
 
-📄 License
-This project is under the MIT License.
+---
+
