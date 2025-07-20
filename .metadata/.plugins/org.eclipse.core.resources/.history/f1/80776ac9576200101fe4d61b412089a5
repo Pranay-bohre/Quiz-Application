@@ -1,0 +1,23 @@
+package com.quiz.services.impl;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
+
+import com.quiz.dto.QuestionResponseEvent;
+import com.quiz.services.KafkaConsumer;
+
+public class KafkaConsumerImpl implements KafkaConsumer{
+	
+	private final Map<String, CompletableFuture<List<Question>>> pendingRes = new ConcurrentHashMap<>();
+
+	@Override
+	public String consume(QuestionResponseEvent response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

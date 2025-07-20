@@ -1,0 +1,76 @@
+package com.quiz.controllers;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+
+
+
+public class Interview {
+	public List<List<String>> groupAnagrams(String[] strs) {
+		Map<String, List<String>> anagrams = new HashMap()<>();
+		
+		for(String str : strs) {
+			char[] chars = str.toCharArray();
+			
+			Arrays.sort(chars);
+			
+			String sorted = new String(chars);
+			
+			map.computeIfAbsent(sorted, k -> new ArrayList<>()).add(str);
+		}
+		
+		return new ArrayList<>(map.values());
+		
+	}
+	
+	
+	public int[] findOrder(int numCourses, int[][] prerequisites) {
+		
+		Map<Integer, List<Integer>> graph = new HashMap<>();
+		
+		int[] inDegree = new int[numCourses];
+		
+		for(int[] pre: prerequisites) {
+			int dest = pre[0];
+			int src = pre[1];
+			
+			graph.computeIfAbsent(src, k -> new ArrayList<>()).add(dest);
+			inDegree[dest]++;
+		}
+		
+		Queue<Integer> queue = new LinkedList<>();
+		
+		for(int i = 0; i < numCourses; i++) {
+			if(inDegree[i] == 0)
+				queue.offer(i);
+		}
+		
+		List<Integer> res = new ArrayList<>();
+		
+		while(!queue.isEmpty()) {
+			int current = queue.poll();
+			res.add(current);
+			
+			if(graph.containsKey(current)) {
+				for(int neigh : graph.get(current)) {
+					inDegree[neigh]--;
+					if(inDegree[neigh] == 0) {
+						queue.offer(neigh);
+					}
+				}
+			}
+		}
+		
+		if(res.size() == numCourses) 
+			return res.stream().mapToInt(i -> i).toArray();
+		
+			return new int[0];
+		
+	}
+	
+}

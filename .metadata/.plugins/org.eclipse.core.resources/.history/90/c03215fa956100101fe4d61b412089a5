@@ -1,0 +1,41 @@
+package com.question.services.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.question.entities.Question;
+import com.question.repositories.QuestionRepository;
+import com.question.services.QuestionService;
+
+public class QuestionServiceImpl implements QuestionService{
+	
+	@Autowired
+	QuestionRepository questionRepository;
+
+	@Override
+	public void save(Question question) {
+		// TODO Auto-generated method stub
+		questionRepository.save(question);
+		
+	}
+
+	@Override
+	public Question findQuestionById(Long id) {
+		// TODO Auto-generated method stub
+		return questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question Not Found by " + id));
+	}
+
+	@Override
+	public List<Question> findQuestionsByQuizId(Long quizId) {
+		// TODO Auto-generated method stub
+		return questionRepository.findByQuizId(quizId);
+	}
+
+	@Override
+	public List<Question> findAllQuestions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

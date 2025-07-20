@@ -1,0 +1,9 @@
+package com.question.config;
+
+public class KafkaConfig {
+	public static final String QUESTION_TOPIC="QUESTION_TOPIC";
+	
+	private KafkaConfig() {
+		
+	}
+}

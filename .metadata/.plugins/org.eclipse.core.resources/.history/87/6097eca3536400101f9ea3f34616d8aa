@@ -1,0 +1,23 @@
+package com.question.services.impl;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
+import org.springframework.kafka.annotation.KafkaListener;
+
+import com.question.dto.QuestionResponseEvent;
+import com.question.services.KafkaConsumer;
+
+public class QuestionKafkaConsumer implements KafkaConsumer{
+
+
+	@KafkaListener(topics = "question-response", groupId = "quiz-consumer-group")
+    public void consume(QuestionResponseEvent response) {
+        CompletableFuture<List<Question>> future = pendingService.removePendingResponse(response.getCorrelationId());
+        if (future != null) {
+            future.complete(response.getQustions());
+        }
+    }
+
+}

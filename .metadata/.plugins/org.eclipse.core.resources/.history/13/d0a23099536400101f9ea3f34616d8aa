@@ -1,0 +1,13 @@
+package com.question.services.impl;
+
+import com.question.services.KafkaConsumer;
+
+public class QuestionKafkaConsumer implements KafkaConsumer{
+
+	@Override
+	public String consume(String message) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

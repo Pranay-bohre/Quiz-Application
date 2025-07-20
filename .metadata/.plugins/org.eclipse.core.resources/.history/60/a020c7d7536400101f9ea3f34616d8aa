@@ -1,0 +1,13 @@
+package com.question.services.impl;
+
+import com.question.services.KafkaProducer;
+
+public class QuestionKafkaProducer implements KafkaProducer{
+
+	@Override
+	public void produce(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

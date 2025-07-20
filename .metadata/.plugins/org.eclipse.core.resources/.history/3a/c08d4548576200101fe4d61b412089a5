@@ -1,0 +1,10 @@
+package com.quiz.dto;
+
+import java.util.List;
+
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
+
+public class QuestionResponseEvent {
+	private List<Question> qustions;
+	private String correlationId;
+}

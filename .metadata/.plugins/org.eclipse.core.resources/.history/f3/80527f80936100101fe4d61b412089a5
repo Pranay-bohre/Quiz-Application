@@ -1,0 +1,7 @@
+package com.question.services.impl;
+
+import com.question.services.KafkaProducer;
+
+public class QuestionKafkaProducer implements KafkaProducer{
+
+}

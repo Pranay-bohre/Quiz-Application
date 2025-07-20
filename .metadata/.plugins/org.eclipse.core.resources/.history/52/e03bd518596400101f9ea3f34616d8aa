@@ -1,0 +1,24 @@
+package com.question.services.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+
+import com.question.services.KafkaProducer;
+import com.question.config.KafkaConfig;
+import com.question.dto.QuestionRequestEvent;
+
+public class QuestionKafkaProducer implements KafkaProducer{
+
+	@Autowired
+    private KafkaTemplate<String, QuestionRequestEvent> kafkaTemplate;
+
+    @Override
+    public void requestQuestions(Long quizId, String correlationId) {
+        QuestionRequestEvent event = new QuestionRequestEvent();
+        event.setQuizId(quizId);
+        event.setCorrelationId(correlationId);
+
+        kafkaTemplate.send(KafkaConfig.QUESTION_TOPIC, event);
+    }
+
+}

@@ -1,0 +1,27 @@
+package com.question.services.impl;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+
+import com.question.dto.QuestionRequestEvent;
+import com.question.dto.QuestionResponseEvent;
+import com.question.services.KafkaConsumer;
+
+public class QuestionKafkaConsumer implements KafkaConsumer{
+	
+	@Autowired
+    private KafkaPendingResponseService pendingService;
+	
+	@Autowired
+	private QuestionServiceImpl quizServiceImpl;
+
+	@KafkaListener(topics = "QUIZ-SERVICE")
+    public void fetchQuestionsByQuizId(QuestionRequestEvent requestEvent) {
+        quizServiceImpl.fetchAllQuestionByQuizIdKafka(requestEvent);
+    }
+
+}

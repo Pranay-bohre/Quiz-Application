@@ -1,0 +1,14 @@
+package com.quiz.dto;
+
+import java.util.List;
+
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class QuestionResponseEvent {
+	private List<Question> qustions;
+	private String correlationId;
+}

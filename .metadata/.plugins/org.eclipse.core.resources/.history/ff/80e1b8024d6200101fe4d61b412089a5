@@ -1,0 +1,16 @@
+package com.question.services;
+
+import java.util.List;
+
+import com.question.entities.Question;
+
+public interface QuestionService {
+	
+	public void save(Question question);
+	
+	public Question findQuestionById(Long id);
+	
+	public List<Question> findQuestionsByQuizId(Long quizId);
+	
+	public List<Question> findAllQuestions();
+}

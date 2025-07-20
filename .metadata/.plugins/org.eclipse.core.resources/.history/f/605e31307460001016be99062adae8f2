@@ -1,0 +1,18 @@
+package com.quiz.services.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.quiz.services.KafkaProducer;
+
+public class KafkaProducerImpl implements KafkaProducer{
+	
+//	@Autowired
+//	private KafkaTemplate
+
+	@Override
+	public void sendMessage(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

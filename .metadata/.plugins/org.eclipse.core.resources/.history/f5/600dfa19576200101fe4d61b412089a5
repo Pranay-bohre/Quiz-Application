@@ -1,0 +1,24 @@
+package com.quiz.services.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+
+import com.quiz.config.KafkaConfig;
+import com.quiz.dto.QuestionRequestEvent;
+import com.quiz.services.KafkaProducer;
+
+public class KafkaProducerImpl implements KafkaProducer{
+	
+	@Autowired
+	private KafkaTemplate<String, QuestionRequestEvent> kafkaTemplate;
+	
+	
+
+	@Override
+	public void requestQuestions(Long quizId, String correlationId) {
+		// TODO Auto-generated method stub
+		QuestionRequestEvent event = new QuestionRequestEvent();
+		kafkaTemplate.send(KafkaConfig.QUIZ_SERVICE_TOPIC, event);
+	}
+
+}

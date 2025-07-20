@@ -1,0 +1,34 @@
+package com.quiz.services.impl;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+
+import com.quiz.dto.Question;
+import com.quiz.dto.QuestionResponseEvent;
+import com.quiz.services.KafkaConsumer;
+
+@Service
+public class KafkaConsumerImpl implements KafkaConsumer {
+
+    @Autowired
+    private KafkaPendingResponseService pendingService;
+
+    @KafkaListener(topics = "${kafka.topics.question-response}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consume(QuestionResponseEvent response) {
+        System.out.println("RECEIVED EVENT: " + response); // Add this
+        CompletableFuture<List<Question>> future = pendingService.removePendingResponse(response.getCorrelationId());
+        if (future != null) {
+            future.complete(response.getQustions());
+        } else {
+            System.err.println("❗ Future is null for correlationId: " + response.getCorrelationId());
+        }
+    }
+
+}
+

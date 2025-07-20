@@ -1,0 +1,62 @@
+package com.quiz.controllers;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.quiz.entities.Quiz;
+import com.quiz.services.QuizService;
+import com.quiz.services.impl.QuizServiceImpl;
+
+@RestController
+@RequestMapping("/quiz")
+public class QuizController {
+	
+	private QuizServiceImpl quizService;
+	
+	private final Map<String, CompletableFuture<List<Question>>> pendingResponses = new ConcurrentHashMap<>();
+
+	public QuizController(QuizServiceImpl quizService) {
+		super();
+		this.quizService = quizService;
+	}
+	
+	@PostMapping
+	public Quiz create(@RequestBody Quiz quiz) {
+		System.out.print(quiz.getTitle());
+		
+		return quizService.add(quiz);
+	}
+	
+	@GetMapping
+	public List<Quiz> get(){
+		return quizService.get();
+	}
+	
+	@GetMapping("{id}")
+	public Quiz getOne(@PathVariable Long id){
+		return quizService.get(id);
+	}
+	
+	@GetMapping("/allquestions")
+	public List<Quiz> getQuizesWithQuestions(){
+		return quizService.get();
+	}
+	
+	@GetMapping(params = "quizId", value =  "/allquestions")
+	public List<Quiz> getQuestionsByQuizId(@RequestParam Long quizId) throws Exception{
+		return quizService.requestOperations(quizId);
+	}
+}

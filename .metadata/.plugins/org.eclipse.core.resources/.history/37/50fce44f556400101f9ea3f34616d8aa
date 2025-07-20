@@ -1,0 +1,8 @@
+package com.question.services;
+
+import com.question.dto.QuestionRequestEvent;
+import com.question.dto.QuestionResponseEvent;
+
+public interface KafkaConsumer {
+	public void fetchQuestionsByQuizId(QuestionRequestEvent response);
+}

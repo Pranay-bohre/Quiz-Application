@@ -1,0 +1,9 @@
+package com.quiz.config;
+
+public class KafkaConfig {
+	public static final String QUIZ_SERVICE_TOPIC = "QUIZ-SERVICE";
+	
+	private KafkConfig() {
+        // Prevent instantiation
+    }
+}

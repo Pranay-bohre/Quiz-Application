@@ -1,0 +1,6 @@
+package com.quiz.dto;
+
+public class QuestionRequestEvent {
+	private Long quizId;
+	private String correlationId;
+}

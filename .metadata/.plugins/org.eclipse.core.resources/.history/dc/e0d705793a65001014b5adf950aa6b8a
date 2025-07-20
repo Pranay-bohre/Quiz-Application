@@ -1,0 +1,12 @@
+package com.quiz.dto;
+
+
+public class Question {
+ private Long id;
+ private String question;
+ private Long quizId;
+
+ public Question() {} // ✅ Required by Jackson
+
+ // ✅ Getters and Setters
+}

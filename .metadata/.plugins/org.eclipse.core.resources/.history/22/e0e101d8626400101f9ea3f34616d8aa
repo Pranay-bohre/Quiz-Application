@@ -1,0 +1,72 @@
+package com.quiz.config;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.quiz.dto.QuestionRequestEvent;
+import com.quiz.dto.QuestionResponseEvent;
+
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.*;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+
+@EnableKafka
+@Configuration
+public class KafkaConfig {
+
+    public static final String QUIZ_SERVICE_TOPIC = "QUIZ-SERVICE";
+    public static final String QUIZ_RESPONSE_TOPIC = "QUIZ-RESPONSE";
+
+    private final String bootstrapServers = "localhost:9092";
+
+    // ---------- PRODUCER: QuestionRequestEvent ----------
+    @Bean
+    public ProducerFactory<String, QuestionRequestEvent> questionRequestProducerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        config.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false); // ✅ disable type header
+
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+    @Bean
+    public KafkaTemplate<String, QuestionRequestEvent> kafkaTemplate() {
+        return new KafkaTemplate<>(questionRequestProducerFactory());
+    }
+
+    // ---------- CONSUMER: QuestionResponseEvent ----------
+    @Bean
+    public ConsumerFactory<String, QuestionResponseEvent> questionResponseConsumerFactory() {
+        JsonDeserializer<QuestionResponseEvent> deserializer = new JsonDeserializer<>(QuestionResponseEvent.class, false);
+        deserializer.setRemoveTypeHeaders(true);
+        deserializer.setUseTypeMapperForKey(false);
+        deserializer.addTrustedPackages("*");
+
+        Map<String, Object> config = new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, "quiz-group");
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+
+        return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), deserializer);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, QuestionResponseEvent> questionResponseKafkaListenerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, QuestionResponseEvent> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(questionResponseConsumerFactory());
+        return factory;
+    }
+}

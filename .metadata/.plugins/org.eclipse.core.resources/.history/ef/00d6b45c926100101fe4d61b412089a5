@@ -1,0 +1,8 @@
+package com.question.repositories;
+
+import com.question.entities.Question;
+
+public interface QuestionRepository {
+	
+	public void save(Long quizId, Question question);
+}

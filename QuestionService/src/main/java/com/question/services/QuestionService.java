@@ -1,0 +1,20 @@
+package com.question.services;
+
+import java.util.List;
+
+import com.question.dto.QuestionRequestEvent;
+import com.question.dto.QuestionResponseEvent;
+import com.question.entities.Question;
+
+public interface QuestionService {
+	
+	public Question save(Question question);
+	
+	public Question findQuestionById(Long id);
+	
+	public List<Question> findQuestionsByQuizId(Long quizId);
+	
+	public List<Question> findAllQuestions();
+	
+	public void fetchAllQuestionByQuizIdKafka(QuestionRequestEvent requestEvent);
+}

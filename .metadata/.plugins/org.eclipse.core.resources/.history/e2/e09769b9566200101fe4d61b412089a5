@@ -1,0 +1,6 @@
+package com.quiz.dto;
+
+public class QuestionResponseEvent {
+	private List<Question> qustions;
+	private String correlationId;
+}

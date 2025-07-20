@@ -1,0 +1,7 @@
+package com.quiz.repositories.impl;
+
+import com.quiz.repositories.QuizRepository;
+
+public class QuizRepositoryImpl implements QuizRepository{
+
+}

@@ -1,0 +1,5 @@
+package com.quiz.services;
+
+public interface KafkaConsumer {
+	public String consume(String message);
+}
